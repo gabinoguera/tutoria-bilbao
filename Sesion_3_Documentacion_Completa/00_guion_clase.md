@@ -1,314 +1,104 @@
-# Guion de Clase - Sesión 3 (FINAL)
+# Guion de Clase - Sesión 3 (SC6)
+## Documentación Inteligente de Cierre de Proyecto con GitHub Copilot
 
-## Testing Frontend y Documentación Completa
-
-**Fecha:** 09/12/2025  
-**Horario:** 9:00 - 10:30h (90 minutos)  
-**Modalidad:** Online
+**Fecha:** [Fecha de la sesión]
+**Duración:** 90 minutos
+**Perfil:** Desarrolladores Senior (Visual Studio 2022, C#, Oracle)
+**Entorno:** GitHub Codespaces (Simulando entorno .NET/Oracle)
 
 ---
 
 ## 🎯 Objetivos de la Sesión
-
-Al finalizar, los participantes sabrán:
-1. ✅ Cómo testear formularios HTML/JavaScript
-2. ✅ Cómo documentar arquitectura de proyecto completo
-3. ✅ Mejores prácticas para usar Copilot efectivamente
-4. ✅ Plan de acción para aplicar lo aprendido
+Al finalizar, los participantes sabrán cómo usar Copilot para saldar la "deuda de documentación" al final de un proyecto:
+1. Generar **CHANGELOGs** automáticos analizando el historial de cambios.
+2. Crear **READMEs** profesionales para onboarding de nuevos desarrolladores.
+3. Redactar descripciones de **Pull Requests** y mensajes de **Commit** semánticos.
+4. Generar documentación técnica avanzada (**XML Comments**, **JSDoc**, **PL/SQL Docs**).
 
 ---
 
 ## 📋 Estructura Temporal (90 min)
 
-### 1. Intro + Testing Frontend (10 min)
-- Recap breve Sesiones 1 y 2 (3 min)
-- Concepto de testing frontend
-- Diferencia con testing backend
-- **Archivo:** `01_introduccion_testing_frontend.md`
-
-### 2. Ejercicio 1: Test HTML/JS (25 min)
-- Crear formulario de recarga con validaciones
-- Generar tests automáticos con Copilot
-- Ejecutar en navegador y verificar
-- **Archivo:** `02_ejercicio_test_html_js.md`
-
-### 3. Ejercicio 2: Documentar Proyecto (25 min)
-- Generar README completo de proyecto
-- Crear ARCHITECTURE.md con diagramas
-- Documentar decisiones técnicas (ADR)
-- **Archivo:** `03_ejercicio_documentar_proyecto.md`
-
-### 4. Ejercicio 3: Mejores Prácticas y Cierre (20 min)
-- Checklist de mejores prácticas
-- Plan de acción post-curso
-- Prompts útiles para guardar
-- Feedback y despedida
-- **Archivo:** `04_mejores_practicas.md`
-
-### 5. Cierre Final del Curso (10 min)
-- Recap de las 3 sesiones completas
-- Celebrar logros
-- Próximos pasos
-- Q&A final
-- Evaluación del curso
+| Bloque | Tema | Duración | Actividad |
+|--------|------|----------|-----------|
+| 1 | **Intro: El Arte de Cerrar Proyectos** | 10 min | Contexto y problema de la "deuda de documentación" |
+| 2 | **CHANGELOG Automático** | 20 min | Generación desde historial git y código |
+| 3 | **README Profesional** | 20 min | Estructura completa de proyecto Metro Bilbao |
+| 4 | **PRs y Commits Semánticos** | 20 min | Buenas prácticas de versionado y revisión |
+| 5 | **Docs Técnica Avanzada** | 15 min | C# XML Comments y Oracle Packages |
+| 6 | **Cierre y Tarea** | 5 min | Recap y próximos pasos |
 
 ---
 
-## ⚙️ Materiales Necesarios
+## 📝 Desarrollo Detallado
 
-### Para Instructor:
-- VS Code con GitHub Copilot activo
-- Navegador web (Chrome/Firefox)
-- Ejemplos preparados (formulario HTML)
-- Presentación de cierre
+### 1. Introducción (10 min)
+- **Pain Point:** "Terminamos el código, funciona, pero... ¿quién se acuerda de qué cambiamos hace 3 meses?"
+- **Concepto:** Documentación de Cierre vs. Documentación de Desarrollo.
+- **Demo rápida:** Mostrar un proyecto sin README vs. uno con README profesional.
 
-### Para Participantes:
-- VS Code con GitHub Copilot
-- Navegador web
-- Actitud positiva (¡última sesión! 🎉)
+### 2. Ejercicio 1: CHANGELOG Automático (20 min)
+**Escenario:** Se entrega la versión 2.0 del módulo de validaciones. Necesitamos listar qué cambió.
 
----
+**Pasos:**
+1. Abrir el proyecto `Metro.Validation.Service`.
+2. Mostrar historial de cambios (simulado o real).
+3. **Prompt a Copilot:**
+   > "Analiza los cambios en la clase `ValidationService.cs` y genera una entrada para CHANGELOG.md siguiendo el formato 'Keep a Changelog'. Clasifica en Added, Changed, Fixed."
+4. Refinar el resultado para incluir detalles técnicos de Oracle (ej. "Se optimizó SP `sp_validar_billete`").
 
-## 🚨 Notas CRÍTICAS para el Instructor
+**Archivo de trabajo:** `02_ejercicio_changelog.md`
 
-### ⚠️ RECORDAR: Esta es la Última Sesión
-- **Hacer recap completo** de todo el curso
-- **Motivar aplicación práctica** en su trabajo
-- **Celebrar logros** - Han aprendido mucho
-- **Recoger feedback** para mejorar el curso
+### 3. Ejercicio 2: README Completo (20 min)
+**Escenario:** Un nuevo desarrollador senior se une al equipo mañana. Necesita entender el sistema rápido.
 
-### Tips de Facilitación:
-1. **Sesión cierre debe ser motivadora** - No técnica en exceso
-2. **Enfatizar aplicabilidad** - "Esto lo pueden usar mañana"
-3. **Dar plan de acción claro** - Qué hacer la próxima semana
-4. **Pedir feedback honesto** - Para mejorar futuras ediciones
+**Pasos:**
+1. Crear archivo `README.md` vacío en la raíz.
+2. **Prompt a Copilot:**
+   > "Genera un README.md profesional para el proyecto 'Metro Bilbao Validation System'.
+   > Stack: .NET 8, Oracle 23c.
+   > Incluye: Descripción, Arquitectura (Mermaid), Requisitos, Setup de BD, y Cómo correr tests."
+3. Iterar para agregar sección específica de **Troubleshooting** (ej. "Error ORA-12154 común").
 
-### Prioridades Si Falta Tiempo:
-1. ✅ Ejercicio 1 (Test HTML) - IMPORTANTE
-2. ⚠️ Ejercicio 2 (Arquitectura) - Puede acortarse
-3. ✅ Ejercicio 3 (Mejores prácticas) - IMPRESCINDIBLE
-4. ✅ Cierre motivador - CRÍTICO
+**Archivo de trabajo:** `03_ejercicio_readme.md`
 
-### Si Van Bien de Tiempo:
-- Resolver dudas pendientes
-- Ejemplos adicionales de su trabajo
-- Sesión práctica con sus casos reales
+### 4. Ejercicio 3: PRs y Commits (20 min)
+**Escenario:** Vamos a subir un hotfix crítico de tarifas.
 
----
+**Parte A: Commit Semántico**
+1. Realizar un cambio pequeño en `TarifasController.cs`.
+2. **Prompt:** "Genera un mensaje de commit semántico (Conventional Commits) para este cambio."
+3. Resultado esperado: `fix(tarifas): corregir cálculo de descuento en fin de semana`
 
-## 📚 Recursos Mínimos
+**Parte B: Pull Request**
+1. Simular que estamos creando un PR.
+2. **Prompt:** "Escribe una descripción para un PR que incluye cambios en `TarifasController.cs` y el SP `pkg_tarifas`. Explica el riesgo, cómo probarlo y checklist de despliegue."
 
-### Lo que SÍ necesitamos:
-- ✅ VS Code
-- ✅ GitHub Copilot
-- ✅ Navegador web
-- ✅ Ganas de seguir aprendiendo
+**Archivo de trabajo:** `04_ejercicio_pr_commits.md`
 
-### Lo que NO necesitamos:
-- ❌ Frameworks complejos
-- ❌ Configuraciones avanzadas
-- ❌ Servidores
+### 5. Ejercicio 4: Documentación Técnica (15 min)
+**Escenario:** Exponer nuestra API a otros equipos.
 
----
+**C# XML Comments:**
+1. Ir a `ValidationService.cs`.
+2. Seleccionar método complejo `ValidarTransbordo()`.
+3. **Prompt:** "Genera comentarios XML de documentación. Incluye etiquetas <summary>, <param>, <returns> y <example>."
 
-## 🆘 Troubleshooting Común
+**Oracle PL/SQL Docs:**
+1. Ir a `database/packages/pkg_validacion.sql`.
+2. **Prompt:** "Documenta este paquete usando formato Javadoc/PLDoc. Describe cada procedimiento y sus parámetros."
 
-### Problema: HTML no se ve en navegador
-**Solución:**
-1. Verifica que guardaste como `.html`
-2. Abre directamente en navegador
-3. O usa "Open with Live Server" en VS Code
+**Archivo de trabajo:** `05_ejercicio_docs_tecnica.md`
 
-### Problema: JavaScript no funciona
-**Solución:**
-1. Abre consola del navegador (F12)
-2. Revisa errores en consola
-3. Copia error a Copilot
-
-### Problema: No entienden diagramas Mermaid
-**Solución:**
-1. Usa formato texto simple primero
-2. Explica: "Es como un flowchart"
-3. Muestra ejemplo visual simple
+### 6. Cierre (5 min)
+- Resumen de herramientas usadas.
+- **Tarea:** Aplicar esto en SU proyecto actual (generar un README o CHANGELOG hoy mismo).
+- Preview Sesión 4: Testing Avanzado.
 
 ---
 
-## 🎓 Conceptos Clave a Transmitir
-
-### Testing Frontend:
-- **Validación = Verificar** que inputs sean correctos
-- **Interacción = Verificar** que botones funcionen
-- **Copilot puede generar** HTML + validación + tests juntos
-
-### Documentación de Proyecto:
-- **README = Primera impresión** de tu proyecto
-- **ARCHITECTURE = Mapa** del sistema
-- **ADR = Explicar decisiones** importantes
-
-### Mejores Prácticas:
-- **Prompts específicos** > Prompts genéricos
-- **Siempre revisar** código generado
-- **Documentar mientras desarrollas**, no después
-- **Practicar continuamente** para mejorar
-
----
-
-## 🔗 Conexión con Sesiones Anteriores
-
-### Sesión 1 (04/11/2025):
-✅ Generación de código básico  
-✅ Explicar código existente  
-✅ SQL simple
-
-### Sesión 2 (02/12/2025):
-✅ Tests unitarios simples  
-✅ Documentar funciones con JSDoc  
-✅ Generar READMEs
-
-### Sesión 3 (HOY):
-✅ Testing de interfaces web  
-✅ Documentación de arquitectura  
-✅ **Plan de acción para seguir aplicando**
-
----
-
-## 💡 Mensajes Clave para Cerrar
-
-### 1. **Copilot es una herramienta, tú eres el desarrollador**
-No reemplaza tu conocimiento, lo amplifica.
-
-### 2. **La práctica hace al maestro**
-Cuanto más uses Copilot, mejor sabrás cómo pedirle lo que necesitas.
-
-### 3. **Empieza pequeño, escala gradualmente**
-No intentes documentar todo mañana. Ve paso a paso.
-
-### 4. **Comparte con tu equipo**
-El conocimiento se multiplica cuando se comparte.
-
-### 5. **Sigue aprendiendo**
-Copilot evoluciona, mantente actualizado.
-
----
-
-## 📝 Evaluación del Curso
-
-### Preguntas a hacer:
-1. **¿Qué te llevas del curso?**
-2. **¿Qué aplicarás la próxima semana?**
-3. **¿Qué mejorarías del curso?**
-4. **¿Recomendarías este curso a colegas?**
-5. **¿Qué tema adicional te gustaría cubrir?**
-
-### Formato:
-- Breve encuesta (5 min)
-- O feedback verbal abierto
-- Opcional: Email posterior con más detalles
-
----
-
-## 🎁 Entregables Finales
-
-### Material del Curso:
-- ✅ 3 carpetas con todas las sesiones
-- ✅ Ejercicios prácticos completos
-- ✅ Templates de prompts
-- ✅ Checklist de mejores prácticas
-- ✅ Plan de acción post-curso
-
-### Acceso Posterior:
-- Repositorio con material actualizado
-- Contacto para dudas
-- Comunidad de alumni (si aplica)
-
----
-
-## 🌟 Reconocimiento de Logros
-
-### ¡Han completado el curso!
-
-En 4.5 horas han aprendido:
-- ✅ Usar GitHub Copilot efectivamente
-- ✅ Generar código en múltiples lenguajes
-- ✅ Crear tests básicos
-- ✅ Documentar código y proyectos
-- ✅ Testing frontend
-- ✅ Mejores prácticas
-
-### **¡ESO ES MUCHO!** 🎉🎉🎉
-
----
-
-## 🚀 Próximos Pasos
-
-### Después de la Sesión:
-1. **Hoy mismo:** Prueba Copilot con algo de tu trabajo
-2. **Esta semana:** Documenta una función que no tenía docs
-3. **Este mes:** Crea tests para algo crítico
-4. **Este trimestre:** Integra Copilot en tu flujo diario
-
-### Mantener Momentum:
-- Usa Copilot todos los días (aunque sea 10 min)
-- Comparte casos de éxito con el grupo
-- Ayuda a colegas que estén empezando
-- Sigue explorando nuevas capacidades
-
----
-
-## 💬 Cierre Motivador
-
-### Script Final:
-
-> "Felicidades por completar este curso. Han demostrado compromiso y ganas de aprender.
->
-> GitHub Copilot es una herramienta poderosa, pero ustedes son los verdaderos expertos. La herramienta amplifica su conocimiento, no lo reemplaza.
->
-> Los animo a que apliquen lo aprendido en su trabajo diario. Empiecen con cosas pequeñas y vayan escalando. Compartan con su equipo. El conocimiento crece cuando se comparte.
->
-> Recuerden: no tienen que ser perfectos. Copilot tampoco es perfecto. Lo importante es iterar, mejorar, y seguir aprendiendo.
->
-> ¡Mucho éxito en sus proyectos! Y recuerden que pueden contactarme si tienen dudas.
->
-> **¡Gracias por participar y mucha suerte! 🚀**"
-
----
-
-## 📞 Información de Contacto
-
-### Para Dudas:
-- Email: [instructor email]
-- Canal del curso: [si aplica]
-- Sesiones de seguimiento: [según disponibilidad]
-
-### Para Compartir Éxitos:
-- Grupo de alumni: [si aplica]
-- LinkedIn: [si quieren conectar]
-
----
-
-## ✅ Checklist del Instructor
-
-Antes de terminar la sesión:
-
-- [ ] Hice recap completo de las 3 sesiones
-- [ ] Todos completaron al menos 1 ejercicio
-- [ ] Entregué plan de acción claro
-- [ ] Recogí feedback del curso
-- [ ] Dejé información de contacto
-- [ ] Motivé para seguir usando Copilot
-- [ ] Agradecí la participación
-- [ ] Me despedí apropiadamente
-
----
-
-## 🎓 ¡SESIÓN 3 COMPLETA!
-
-### Gracias por enseñar este curso.
-
-### Espero que tus participantes:
-- Se sientan empoderados para usar Copilot
-- Tengan conocimientos prácticos aplicables
-- Estén motivados para seguir aprendiendo
-- Vean el valor real de la IA en desarrollo
-
-### **¡Buen trabajo! 👏**
+## 🛠️ Recursos Necesarios (Codespaces)
+- Repositorio con estructura `MetroBilbao_Project`.
+- Extensión "C# Dev Kit" activa.
+- Contenedor Oracle levantado (`docker ps` para verificar).
+- Archivos de ejemplo en carpeta `ejemplos/`.
