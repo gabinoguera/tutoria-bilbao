@@ -1,5 +1,5 @@
 # Guion de Clase - Sesión 3 (SC6)
-## Documentación Inteligente de Cierre de Proyecto con GitHub Copilot
+## Documentación y Análisis de Sistemas con Copilot (Enfoque Reverse Engineering)
 
 **Fecha:** [Fecha de la sesión]
 **Duración:** 90 minutos
@@ -9,11 +9,11 @@
 ---
 
 ## 🎯 Objetivos de la Sesión
-Al finalizar, los participantes sabrán cómo usar Copilot para saldar la "deuda de documentación" al final de un proyecto:
-1. Generar **CHANGELOGs** automáticos analizando el historial de cambios.
-2. Crear **READMEs** profesionales para onboarding de nuevos desarrolladores.
-3. Redactar descripciones de **Pull Requests** y mensajes de **Commit** semánticos.
-4. Generar documentación técnica avanzada (**XML Comments**, **JSDoc**, **PL/SQL Docs**).
+Aportar valor sobre lo ya construido, utilizando Copilot no solo para escribir código, sino para **entender, analizar y documentar** sistemas existentes (Reverse Engineering):
+1. Aplicar **técnicas avanzadas de prompting** (Academy) para tareas de documentación.
+2. Generar **diagramas y diccionarios de datos** a partir de esquemas SQL existentes.
+3. Documentar lógica de negocio compleja en **C# y PL/SQL**.
+4. Crear documentación de proyecto (**README, CHANGELOG**) para facilitar el mantenimiento.
 
 ---
 
@@ -21,33 +21,58 @@ Al finalizar, los participantes sabrán cómo usar Copilot para saldar la "deuda
 
 | Bloque | Tema | Duración | Actividad |
 |--------|------|----------|-----------|
-| 1 | **Intro: El Arte de Cerrar Proyectos** | 10 min | Contexto y problema de la "deuda de documentación" |
-| 2 | **CHANGELOG Automático** | 20 min | Generación desde historial git y código |
-| 3 | **README Profesional** | 20 min | Estructura completa de proyecto Metro Bilbao |
-| 4 | **PRs y Commits Semánticos** | 20 min | Buenas prácticas de versionado y revisión |
-| 5 | **Docs Técnica Avanzada** | 15 min | C# XML Comments y Oracle Packages |
-| 6 | **Cierre y Tarea** | 5 min | Recap y próximos pasos |
+| 1 | **Prompting Avanzado para Docs** | 15 min | Conceptos Academy (CoT, APE) aplicados a documentación |
+| 2 | **Análisis de Base de Datos** | 25 min | Diagramas Mermaid, Diccionario de Datos, Análisis de Tablas |
+| 3 | **Documentación de Código** | 20 min | XML Comments, explicación de algoritmos (C# y PL/SQL) |
+| 4 | **Documentación de Proyecto** | 20 min | README profesional y CHANGELOG automático |
+| 5 | **Cierre y Conclusiones** | 10 min | Valor de la documentación viva |
 
 ---
 
 ## 📝 Desarrollo Detallado
 
-### 1. Introducción (10 min)
-- **Pain Point:** "Terminamos el código, funciona, pero... ¿quién se acuerda de qué cambiamos hace 3 meses?"
-- **Concepto:** Documentación de Cierre vs. Documentación de Desarrollo.
-- **Demo rápida:** Mostrar un proyecto sin README vs. uno con README profesional.
+### 1. Prompting Avanzado para Documentación (15 min)
+Explicación breve de conceptos de la academia aplicados a **entender código**:
+- **Chain of Thought (CoT):** "Analiza paso a paso este procedimiento almacenado antes de resumirlo."
+- **Few-Shot Prompting:** "Aquí tienes un ejemplo de cómo documento mis APIs. Documenta esta nueva clase igual."
+- **Role Prompting:** "Actúa como un Arquitecto de Software y genera un diagrama de secuencia de este flujo."
 
-### 2. Ejercicio 1: CHANGELOG Automático (20 min)
-**Escenario:** Se entrega la versión 2.0 del módulo de validaciones. Necesitamos listar qué cambió.
+### 2. Ejercicio 1: Análisis de Base de Datos (25 min)
+**Contexto:** Tenemos un esquema de base de datos (`metro_schema.sql`) y necesitamos entenderlo sin mirar el código línea por línea.
 
-**Pasos:**
-1. Abrir el proyecto `Metro.Validation.Service`.
-2. Mostrar historial de cambios (simulado o real).
-3. **Prompt a Copilot:**
-   > "Analiza los cambios en la clase `ValidationService.cs` y genera una entrada para CHANGELOG.md siguiendo el formato 'Keep a Changelog'. Clasifica en Added, Changed, Fixed."
-4. Refinar el resultado para incluir detalles técnicos de Oracle (ej. "Se optimizó SP `sp_validar_billete`").
+**Actividades:**
+1. **Diagramas Automáticos:**
+   - Prompt: *"Genera un diagrama Entity-Relationship en formato Mermaid de las tablas relacionadas con 'BILLETES' y 'VALIDACIONES' en el archivo `metro_schema.sql`."*
+   - Renderizar el diagrama en el Markdown preview.
+2. **Diccionario de Datos:**
+   - Prompt: *"Crea una tabla Markdown que actúe como diccionario de datos para la tabla `TARIFAS`. Incluye columna, tipo, y una descripción funcional inferida del nombre."*
+3. **Análisis de Integridad:**
+   - Prompt: *"Analiza el esquema y dime qué tablas parecen no tener relaciones definidas (tablas huérfanas) o posibles riesgos de integridad referencial."*
 
-**Archivo de trabajo:** `02_ejercicio_changelog.md`
+### 3. Ejercicio 2: Documentación de Código (20 min)
+**Contexto:** Tenemos lógica compleja en C# (`TarifasService.cs`) y Oracle (`PKG_VALIDACION.sql`).
+
+**Actividades:**
+1. **C# XML Documentation:**
+   - Prompt: *"Genera comentarios XML para la clase `TarifasService`. Incluye ejemplos de uso en las etiquetas `<example>`."*
+2. **Explicación de Lógica (PL/SQL):**
+   - Prompt (CoT): *"Explica paso a paso la lógica de validación en `PKG_VALIDACION.sql`. Identifica las reglas de negocio críticas y lístalas en bullet points."*
+3. **Generación de Guía de Desarrollador:**
+   - Prompt: *"Basado en `TarifasService.cs`, genera una breve guía en Markdown titulada 'Cómo calcular tarifas' para un nuevo desarrollador."*
+
+### 4. Ejercicio 3: Documentación de Proyecto (20 min)
+**Contexto:** Entregar el proyecto de forma profesional.
+
+**Actividades:**
+1. **README.md:**
+   - Prompt: *"Genera un README.md profesional para el proyecto 'Metro Bilbao Core'. Incluye secciones de: Requisitos, Configuración de DB (Oracle), y Ejemplos de uso de la API de Tarifas."*
+2. **CHANGELOG:**
+   - Prompt: *"Imagina que acabamos de refactorizar la validación de edad. Genera una entrada para el CHANGELOG.md bajo la versión 2.1.0."*
+
+### 5. Cierre (10 min)
+- **Recap:** Copilot ayuda a "leer" código, no solo a escribirlo.
+- **Valor:** La documentación generada así se mantiene viva más fácilmente.
+- **Q&A.**
 
 ### 3. Ejercicio 2: README Completo (20 min)
 **Escenario:** Un nuevo desarrollador senior se une al equipo mañana. Necesita entender el sistema rápido.

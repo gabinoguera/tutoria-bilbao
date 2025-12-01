@@ -1,53 +1,63 @@
-# Ejercicio 4: Documentación Técnica Avanzada
+# Ejercicio 3: Documentación y Comprensión de Código (C# y PL/SQL)
 
 ## 🎯 Objetivo
-Generar documentación técnica de alta calidad directamente en el código (comentarios XML, JSDoc, PLDoc) para facilitar el mantenimiento y generar documentación automática de APIs.
+Usar Copilot para **entender** lógica compleja heredada y luego generar documentación técnica de alta calidad (comentarios XML, PLDoc) que explique el *porqué* y no solo el *qué*.
 
 ## 📝 Contexto
-Tenemos código complejo en el núcleo de validación que nadie entiende del todo.
-1. Un método C# `ValidarTransbordo` con mucha lógica de negocio.
-2. Un paquete Oracle `PKG_VALIDACION` con procedimientos críticos.
-
-Queremos documentarlos para que el IDE (Visual Studio) muestre ayuda inteligente (IntelliSense) a otros desarrolladores.
+Tenemos código complejo en el núcleo de validación que necesitamos mantener.
+1. Una clase C# `TarifasService.cs` con reglas de negocio.
+2. Un paquete Oracle `PKG_VALIDACION.sql` con procedimientos críticos.
 
 ## 🔧 Pasos del Ejercicio
 
-### Parte A: Documentación XML en C# (.NET)
+### Parte A: Comprensión y Documentación C#
 
-**Paso 1:**
-Abre el archivo `src/Metro.Validation.Service/ValidationService.cs` (o usa el código de ejemplo abajo).
+**Paso 1: Entender la lógica (Explain)**
+Abre el archivo `ejemplos/csharp/TarifasService.cs`.
+Selecciona el método `CalcularPrecio`.
 
-```csharp
-// Código SIN documentar
-public ValidationResult ValidarTransbordo(int tarjetaId, int estacionId, DateTime tiempo)
-{
-    // ... lógica compleja ...
-}
-```
+**Prompt (Copilot Chat):**
+> "Explica la lógica de cálculo de precios en este método. ¿Qué reglas de negocio se están aplicando para los descuentos? Resúmelo en 3 puntos."
 
-**Paso 2: Prompt a Copilot**
-Selecciona el método y pide:
+**Paso 2: Generar Documentación XML**
+Una vez entendida la lógica, pidamos documentación formal.
 
+**Prompt:**
 > "Genera comentarios de documentación XML para este método.
 > Incluye:
-> - `<summary>` explicando qué hace.
-> - `<param>` para cada parámetro.
-> - `<returns>` explicando el objeto resultado.
-> - `<exception>` si la tarjeta no existe.
-> - `<example>` con un caso de uso."
+> - `<summary>` explicando el propósito.
+> - `<remarks>` mencionando las reglas de descuento identificadas (Jóvenes, Mayores).
+> - `<example>` mostrando cómo llamar al método."
 
 **Resultado Esperado:**
 ```csharp
 /// <summary>
-/// Valida si una operación de validación cuenta como transbordo gratuito
-/// dentro de la ventana de tiempo permitida (45 min).
+/// Calcula el precio final del viaje aplicando descuentos por perfil.
 /// </summary>
-/// <param name="tarjetaId">Identificador único de la tarjeta Barik.</param>
-/// <param name="estacionId">ID de la estación donde se realiza el transbordo.</param>
-/// <param name="tiempo">Marca de tiempo de la validación actual.</param>
-/// <returns>
-/// Un objeto <see cref="ValidationResult"/> indicando si es transbordo válido
-/// y el tiempo restante de la ventana de transbordo.
+/// <remarks>
+/// Reglas aplicadas:
+/// - Menores de 26 años: 50% descuento.
+/// - Mayores de 65 años: 75% descuento.
+/// </remarks>
+// ...
+```
+
+### Parte B: Documentación de Legacy Oracle (PL/SQL)
+
+**Paso 1: Análisis de Procedimiento**
+Abre `ejemplos/oracle/PKG_VALIDACION.sql`.
+
+**Prompt (Chain of Thought):**
+> "Analiza el procedimiento `VALIDAR_SALDO`.
+> 1. Identifica qué tablas se leen y cuáles se modifican.
+> 2. Lista los posibles códigos de error que puede devolver.
+> 3. Genera un bloque de comentarios estilo Javadoc/PLDoc para poner antes del procedimiento."
+
+**Paso 2: Generar Guía de Uso**
+A veces el código está bien, pero falta saber cómo usarlo.
+
+**Prompt:**
+> "Basado en este paquete, genera un ejemplo de código PL/SQL anónimo que llame a `VALIDAR_SALDO` para probarlo, manejando las excepciones posibles."
 /// </returns>
 /// <exception cref="TarjetaNotFoundException">Lanzada si el ID no existe.</exception>
 /// <example>
