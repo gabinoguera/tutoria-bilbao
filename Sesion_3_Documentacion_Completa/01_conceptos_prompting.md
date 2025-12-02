@@ -7,24 +7,35 @@ En esta sección aplicaremos los conceptos teóricos de la academia a casos de u
 **Aplicación en Docs:** Ideal para entender algoritmos complejos o procedimientos almacenados largos antes de resumirlos.
 
 **Ejemplo:**
+
 > "Analiza paso a paso el procedimiento `SP_CALCULAR_TARIFA`. Primero identifica las variables de entrada, luego explica la lógica de los condicionales, y finalmente resume qué hace el procedimiento en un párrafo."
+
+> "diagrama de flujo que represente la lógica del procedimiento `SP_CALCULAR_TARIFA`, detallando cada paso del proceso."
 
 ## 2. Few-Shot Prompting
 **Concepto:** Darle al modelo ejemplos (shots) de lo que quieres para guiar su salida.
-**Aplicación en Docs:** Mantener consistencia en el estilo de documentación (ej. formato de comentarios XML o estructura de README).
+**Aplicación en Docs:** Mantener consistencia en el estilo de documentación (ej. formato de comentarios SQL, estructura de diagramas Mermaid).
 
 **Ejemplo:**
-> "Quiero documentar mis clases C# siguiendo este estilo:
+> "Quiero documentar las tablas del esquema siguiendo este formato:
 >
-> ```csharp
-> /// <summary>
-> /// Calcula el impuesto.
-> /// </summary>
-> /// <param name="monto">El monto base.</param>
-> /// <returns>El impuesto calculado.</returns>
+> ```markdown
+> ### Tabla: `USUARIOS`
+> **Propósito**: Almacena información de los usuarios del sistema Metro.
+>
+> **Columnas**:
+> - `ID_USUARIO` (NUMBER, PK): Identificador único del usuario.
+> - `NOMBRE` (VARCHAR2(100)): Nombre completo del usuario.
+> - `FECHA_REGISTRO` (DATE): Fecha de alta en el sistema.
+>
+> **Relaciones**:
+> - FK a `TARJETAS` (1:N) - Un usuario puede tener múltiples tarjetas.
+>
+> **Reglas de Negocio**:
+> - Los usuarios menores de 6 años no requieren tarjeta para viajar.
 > ```
 >
-> Genera la documentación para la clase `TarifasService` siguiendo exactamente ese patrón."
+> Ahora genera la documentación para la tabla `VALIDACIONES` del archivo `metro_schema.sql` siguiendo exactamente ese patrón."
 
 ## 3. Role Prompting
 **Concepto:** Asignar un rol específico a la IA (ej. "Eres un experto en seguridad").
@@ -40,7 +51,21 @@ En esta sección aplicaremos los conceptos teóricos de la academia a casos de u
 **Ejemplo:**
 > "Escribe un prompt optimizado para pedirle a Copilot que genere un diagrama Mermaid detallado a partir de un esquema SQL, asegurando que incluya tipos de datos y claves foráneas."
 
-## 5. Knowledge Based Reasoning
+>Guardarlo como prompt template para futuros usos.
+
+---
+
+## 🔄 Análisis de Procedimientos (Chain of Thought)
+
+```
+Analiza paso a paso el procedimiento [NOMBRE_PROCEDIMIENTO]. 
+1. Primero identifica las variables de entrada y salida.
+2. Luego explica la lógica de los condicionales.
+3. Finalmente resume qué hace el procedimiento en un párrafo.
+4. Genera un diagrama de flujo en formato Mermaid que represente la lógica.
+```
+
+## 6. Knowledge Based Reasoning
 **Concepto:** Usar conocimiento externo o contexto específico del dominio.
 **Aplicación en Docs:** Enriquecer la documentación técnica con reglas de negocio.
 

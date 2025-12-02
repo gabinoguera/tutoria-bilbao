@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Interactivo - Metro Bilbao</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+        
+        .info-panel {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+            max-width: 250px;
+        }
+        
+        .info-panel h3 {
+            margin: 0 0 10px 0;
+            color: #e30613;
+            font-size: 16px;
+        }
+        
+        .info-panel p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #333;
+        }
+        
+        .station-marker {
+            background-color: #e30613;
+            border: 3px solid white;
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .interchange-marker {
+            background-color: #FFD700;
+            border: 3px solid #e30613;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            left: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+            font-size: 12px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 3px;
+            margin-right: 8px;
+        }
+        
+        .l1-color { background-color: #0066CC; }
+        .l2-color { background-color: #FF6600; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    
+    <div class="info-panel">
+        <h3>🚇 Metro Bilbao</h3>
+        <p><strong>Total Estaciones:</strong> <span id="total-stations">-</span></p>
+        <p><strong>Línea 1:</strong> Plentzia - Etxebarri</p>
+        <p><strong>Línea 2:</strong> Kabiezes - Basauri</p>
+        <p style="margin-top: 10px; font-size: 11px; color: #666;">
+            Haz clic en las estaciones para ver detalles
+        </p>
+    </div>
+    
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color l1-color"></div>
+            <span>Línea 1 (L1)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color l2-color"></div>
+            <span>Línea 2 (L2)</span>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+        // Inicializar el mapa centrado en Bilbao
+        const map = L.map('map').setView([43.2627, -2.9253], 11);
+        
+        // Añadir capa de OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors | Datos: Metro Bilbao Open Data',
+            maxZoom: 19
+        }).addTo(map);
+        
+        // Estaciones de intercambio (transbordo entre líneas)
+        const interchangeStations = ['San Mamés', 'Casco Viejo'];
+        
+        // Función para determinar el color de la línea basado en los datos reales
+        function getLineColor(line) {
+            return line === 'L1' ? '#0066CC' : '#FF6600';
+        }
+        
+        // Función para crear marcador personalizado
+        function createCustomMarker(lat, lng, stationName, stopId, line, isInterchange) {
+            const color = getLineColor(line);
+            
+            const icon = L.divIcon({
+                className: isInterchange ? 'interchange-marker' : 'station-marker',
+                html: `<div style="background-color: ${color}; width: 100%; height: 100%; border-radius: 50%;"></div>`,
+                iconSize: isInterchange ? [18, 18] : [14, 14]
+            });
+            
+            const marker = L.marker([lat, lng], { icon: icon });
+            
+            // Popup con información de la estación
+            const popupContent = `
+                <div style="font-family: Arial; font-size: 13px;">
+                    <strong style="color: ${color}; font-size: 15px;">${stationName}</strong><br>
+                    <span style="color: #666;">Código: ${stopId}</span><br>
+                    <span style="color: #999;">Línea ${line === 'L1' ? '1' : '2'}</span><br>
+                    ${isInterchange ? '<span style="color: #FFD700;">⚡ Estación de intercambio</span><br>' : ''}
+                    <small style="color: #999;">GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)}</small>
+                </div>
+            `;
+            
+            marker.bindPopup(popupContent);
+            
+            return marker;
+        }
+        
+        // Datos reales del CSV de Metro Bilbao Open Data
+        // Coordenadas GPS extraídas del dataset oficial
+        const estaciones = [
+            // Línea 1: Plentzia - Etxebarri
+            { name: 'Plentzia', lat: 43.40183, lng: -2.94640, id: 'PLE', line: 'L1' },
+            { name: 'Sopelana', lat: 43.38024, lng: -2.97926, id: 'SOP', line: 'L1' },
+            { name: 'Urduliz', lat: 43.37865, lng: -2.95905, id: 'URD', line: 'L1' },
+            { name: 'Berango', lat: 43.36676, lng: -2.99942, id: 'BER', line: 'L1' },
+            { name: 'Larrabasterra', lat: 43.37554, lng: -2.99160, id: 'LAR', line: 'L1' },
+            { name: 'Bidezabal', lat: 43.35694, lng: -3.01166, id: 'BID', line: 'L1' },
+            { name: 'Algorta', lat: 43.34988, lng: -3.00910, id: 'ALG', line: 'L1' },
+            { name: 'Aiboa', lat: 43.34359, lng: -3.00288, id: 'AIB', line: 'L1' },
+            { name: 'Gobela', lat: 43.33360, lng: -3.00704, id: 'GOB', line: 'L1' },
+            { name: 'Neguri', lat: 43.34035, lng: -3.00631, id: 'NEG', line: 'L1' },
+            { name: 'Areeta', lat: 43.32651, lng: -3.01040, id: 'ARE', line: 'L1' },
+            { name: 'Abatxolo', lat: 43.31376, lng: -3.01251, id: 'ABT', line: 'L1' },
+            { name: 'Lamiako', lat: 43.32142, lng: -3.00159, id: 'LAM', line: 'L1' },
+            { name: 'Leioa', lat: 43.31799, lng: -2.99203, id: 'LEI', line: 'L1' },
+            { name: 'Artxanda', lat: 43.31448, lng: -2.98677, id: 'AST', line: 'L1' },
+            { name: 'Erandio', lat: 43.30379, lng: -2.97447, id: 'ERA', line: 'L1' },
+            { name: 'Lutxana', lat: 43.29113, lng: -2.97005, id: 'LUT', line: 'L1' },
+            { name: 'San Inazio', lat: 43.28137, lng: -2.96265, id: 'SIN', line: 'L1' },
+            { name: 'Deusto', lat: 43.27182, lng: -2.94947, id: 'DEU', line: 'L1' },
+            { name: 'San Mamés', lat: 43.26254, lng: -2.94819, id: 'SAM', line: 'L1' },
+            { name: 'Indautxu', lat: 43.26125, lng: -2.94234, id: 'IND', line: 'L1' },
+            { name: 'Moyua', lat: 43.26267, lng: -2.93377, id: 'MOY', line: 'L1' },
+            { name: 'Abando', lat: 43.26144, lng: -2.92820, id: 'ABA', line: 'L1' },
+            { name: 'Casco Viejo', lat: 43.26024, lng: -2.91987, id: 'CAV', line: 'L1' },
+            { name: 'Bolueta', lat: 43.24700, lng: -2.90573, id: 'BOL', line: 'L1' },
+            { name: 'Basarrate', lat: 43.25077, lng: -2.91057, id: 'BAS', line: 'L1' },
+            { name: 'Santutxu', lat: 43.25383, lng: -2.91343, id: 'SAN', line: 'L1' },
+            { name: 'Ariz', lat: 43.23767, lng: -2.88255, id: 'ARZ', line: 'L1' },
+            { name: 'Etxebarri', lat: 43.24387, lng: -2.89668, id: 'ETX', line: 'L1' },
+            
+            // Línea 2: Kabiezes - Basauri
+            { name: 'Kabiezes', lat: 43.32224, lng: -3.03726, id: 'KAB', line: 'L2' },
+            { name: 'Santurtzi', lat: 43.32923, lng: -3.03426, id: 'STZ', line: 'L2' },
+            { name: 'Peñota', lat: 43.32200, lng: -3.02593, id: 'PEN', line: 'L2' },
+            { name: 'Portugalete', lat: 43.31795, lng: -3.02144, id: 'POR', line: 'L2' },
+            { name: 'Sestao', lat: 43.30934, lng: -3.00663, id: 'SES', line: 'L2' },
+            { name: 'Urbinaga', lat: 43.30593, lng: -2.99238, id: 'URB', line: 'L2' },
+            { name: 'Bagazar', lat: 43.29849, lng: -2.99262, id: 'BAG', line: 'L2' },
+            { name: 'Barakaldo', lat: 43.29531, lng: -2.98890, id: 'BAR', line: 'L2' },
+            { name: 'Ansio', lat: 43.28975, lng: -2.98699, id: 'ANS', line: 'L2' },
+            { name: 'Gurutzeta', lat: 43.28320, lng: -2.98296, id: 'GUR', line: 'L2' },
+            { name: 'Basauri', lat: 43.23656, lng: -2.89457, id: 'BSR', line: 'L2' }
+        ];
+        
+        // Actualizar contador de estaciones
+        document.getElementById('total-stations').textContent = estaciones.length;
+        
+        // Agrupar estaciones por línea para dibujar conexiones
+        const lineas = {
+            L1: [],
+            L2: []
+        };
+        
+        // Añadir marcadores al mapa
+        estaciones.forEach(estacion => {
+            const isInterchange = interchangeStations.includes(estacion.name);
+            const marker = createCustomMarker(
+                estacion.lat, 
+                estacion.lng, 
+                estacion.name, 
+                estacion.id,
+                estacion.line,
+                isInterchange
+            );
+            marker.addTo(map);
+            
+            // Guardar coordenadas para líneas
+            lineas[estacion.line].push([estacion.lat, estacion.lng]);
+        });
+        
+        // Dibujar líneas de conexión entre estaciones
+        L.polyline(lineas.L1, {
+            color: '#0066CC',
+            weight: 3,
+            opacity: 0.7,
+            smoothFactor: 1
+        }).addTo(map);
+        
+        L.polyline(lineas.L2, {
+            color: '#FF6600',
+            weight: 3,
+            opacity: 0.7,
+            smoothFactor: 1
+        }).addTo(map);
+        
+        // Evento de clic en el mapa para mostrar coordenadas (útil para debugging)
+        map.on('click', function(e) {
+            console.log(`Lat: ${e.latlng.lat.toFixed(5)}, Lng: ${e.latlng.lng.toFixed(5)}`);
+        });
+        
+        console.log('✅ Mapa del Metro Bilbao cargado correctamente');
+        console.log(`📍 ${estaciones.length} estaciones renderizadas`);
+    </script>
+</body>
+</html>

@@ -42,79 +42,43 @@ Una vez entendida la lógica, pidamos documentación formal.
 // ...
 ```
 
+**Paso 3: Comparar Antes y Después**
+Observa la diferencia entre código sin documentar y documentado.
+
+**💡 Beneficio:**
+La documentación XML es el estándar de C#/.NET. Aunque en archivos sueltos no se ve IntelliSense, en proyectos reales esta documentación:
+1. Aparece automáticamente al escribir código (autocompletado)
+2. Se exporta a archivos `.xml` que acompañan los `.dll`
+3. Permite generar sitios web de documentación automáticamente
+
+---
+
 ### Parte B: Documentación de Legacy Oracle (PL/SQL)
 
 **Paso 1: Análisis de Procedimiento**
 Abre `ejemplos/oracle/PKG_VALIDACION.sql`.
 
 **Prompt (Chain of Thought):**
-> "Analiza el procedimiento `VALIDAR_SALDO`.
+> "Analiza el procedimiento `REGISTRAR_PASO`.
 > 1. Identifica qué tablas se leen y cuáles se modifican.
-> 2. Lista los posibles códigos de error que puede devolver.
+> 2. ¿Qué hace el `COMMIT` al final? ¿Es una buena práctica en este contexto?
 > 3. Genera un bloque de comentarios estilo Javadoc/PLDoc para poner antes del procedimiento."
+
+
 
 **Paso 2: Generar Guía de Uso**
 A veces el código está bien, pero falta saber cómo usarlo.
 
 **Prompt:**
-> "Basado en este paquete, genera un ejemplo de código PL/SQL anónimo que llame a `VALIDAR_SALDO` para probarlo, manejando las excepciones posibles."
-/// </returns>
-/// <exception cref="TarjetaNotFoundException">Lanzada si el ID no existe.</exception>
-/// <example>
-/// <code>
-/// var result = service.ValidarTransbordo(12345, 5, DateTime.Now);
-/// if (result.EsTransbordo) Console.WriteLine("Transbordo OK");
-/// </code>
-/// </example>
-public ValidationResult ValidarTransbordo(int tarjetaId, int estacionId, DateTime tiempo)
-{ ... }
-```
+> "Basado en este paquete, genera un ejemplo de código PL/SQL anónimo que:
+> 1. Primero valide el saldo con `VALIDAR_SALDO`
+> 2. Si hay saldo, registre el paso con `REGISTRAR_PASO`
+> 3. Muestre mensajes informativos con DBMS_OUTPUT"
 
-### Parte B: Documentación de Paquetes Oracle (PL/SQL)
 
-**Paso 1:**
-Abre un archivo SQL con un paquete o procedimiento.
-
-```sql
--- Código SIN documentar
 PROCEDURE SP_REGISTRAR_VIAJE(
     p_tarjeta_id IN NUMBER,
     p_estacion_origen IN NUMBER,
     p_estacion_destino IN NUMBER
 );
 ```
-
-**Paso 2: Prompt a Copilot**
-> "Documenta este procedimiento almacenado usando el formato estándar Javadoc/PLDoc.
-> Describe los parámetros de entrada y qué tablas modifica (INSERT en VIAJES, UPDATE en SALDOS)."
-
-**Resultado Esperado:**
-```sql
-/**
- * Registra un viaje completado y descuenta el saldo correspondiente.
- *
- * <p>Este procedimiento realiza dos operaciones atómicas:
- * 1. Inserta el registro en la tabla HISTORICO_VIAJES.
- * 2. Actualiza el saldo en la tabla TARJETAS.</p>
- *
- * @param p_tarjeta_id       ID único de la tarjeta del usuario.
- * @param p_estacion_origen  ID de la estación de entrada.
- * @param p_estacion_destino ID de la estación de salida.
- *
- * @throws ORA-20001 Si el saldo es insuficiente para el trayecto.
- * @throws ORA-20002 Si la tarjeta está bloqueada.
- *
- * @author Equipo Metro Bilbao
- * @version 1.2
- */
-PROCEDURE SP_REGISTRAR_VIAJE(
-    p_tarjeta_id IN NUMBER,
-    p_estacion_origen IN NUMBER,
-    p_estacion_destino IN NUMBER
-);
-```
-
-## 🧠 Reto Adicional
-Pide a Copilot que genere un diagrama de clases Mermaid basado en la interfaz `IValidationService` documentada.
-
-> "Genera un diagrama de clases Mermaid basado en esta interfaz y sus comentarios XML."

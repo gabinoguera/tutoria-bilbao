@@ -11,12 +11,15 @@
 Copilot puede generar código para herramientas de diagramado como Mermaid.js.
 
 **Prompt Sugerido:**
-> "Analiza el archivo `metro_schema.sql`. Genera un diagrama Entity-Relationship (ERD) usando sintaxis Mermaid.js. Incluye las tablas `BILLETES`, `VIAJES`, `ESTACIONES` y `TARIFAS`. Muestra las claves primarias (PK) y foráneas (FK)."
+> "Analiza el archivo `metro_schema.sql`. Genera un diagrama Entity-Relationship (ERD) usando sintaxis Mermaid.js. Incluye las tablas `BILLETES`, `VALIDACIONES`, `ESTACIONES` y `USUARIOS`. Muestra las claves primarias (PK) y foráneas (FK)."
+
+**Nota:** Las tablas reales son `VALIDACIONES` (que registra los viajes) y no existe una tabla `TARIFAS` independiente (las tarifas se calculan dinámicamente).
 
 **Acción:**
 1. Copia el código generado.
 2. Pégalo en un archivo Markdown dentro de un bloque `mermaid`.
-3. Visualiza el resultado en el preview de VS Code/Codespaces.
+3. Instala la extensión **Markdown Preview Mermaid Support** (`bierner.markdown-mermaid`) desde el Marketplace de VS Code.
+4. Visualiza el resultado en el preview de VS Code/Codespaces (Ctrl+Shift+V o Cmd+Shift+V).
 
 ---
 
@@ -25,7 +28,7 @@ Copilot puede generar código para herramientas de diagramado como Mermaid.js.
 Generar documentación legible para negocio o analistas funcionales.
 
 **Prompt Sugerido:**
-> "Actúa como un Analista Funcional. Basado en `metro_schema.sql`, genera una tabla Markdown que sirva como Diccionario de Datos para la tabla `TARIFAS`.
+> "Actúa como un Analista Funcional. Basado en `metro_schema.sql`, genera una tabla Markdown que sirva como Diccionario de Datos para la tabla `VALIDACIONES`.
 > Las columnas deben ser:
 > - Nombre del Campo
 > - Tipo de Dato
