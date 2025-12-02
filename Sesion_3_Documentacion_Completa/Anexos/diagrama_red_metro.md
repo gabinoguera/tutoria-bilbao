@@ -1,75 +1,99 @@
-# Diagrama de la Red del Metro de Bilbao
+# Diagrama de Red - Metro Bilbao
 
-Generado automáticamente desde datos abiertos (Open Data).
+> Generado automáticamente desde `estaciones.csv` (OpenData Metro Bilbao)
 
-## 🗺️ Topología de la Red
+---
+
+## 🗺️ Mapa de la Red
 
 ```mermaid
 graph LR
-    %% Línea 1 - Plentzia ↔ Etxebarri
-    subgraph L1["🔵 Línea 1 - Plentzia ↔ Etxebarri"]
-        PLE[Plentzia] --> SOP[Sopelana]
-        SOP --> URD[Urduliz]
-        URD --> LAR[Larrabasterra]
-        LAR --> BER[Berango]
-        BER --> IBB[Ibarbengoa]
-        IBB --> NEG[Neguri]
-        NEG --> GOB[Gobela]
-        GOB --> ARE[Areeta]
-        ARE --> LAM[Lamiako]
-        LAM --> LEI[Leioa]
-        LEI --> AST[Astrabudua]
-        AST --> ERA[Erandio]
-        ERA --> LUT[Lutxana]
-        LUT --> ANS[Ansio]
-        ANS --> GUR[Gurutzeta]
-        GUR --> BAR[Barakaldo]
+    subgraph L1["🔵 LÍNEA 1 - Etxebarri ↔ Plentzia"]
+        direction LR
+        ETX[Etxebarri] --> BOL[Bolueta]
+        BOL --> BAS[Basarrate]
+        BAS --> SAN[Santutxu]
+        SAN --> CAV["🚉 Casco Viejo"]
+        CAV --> ABA["🚉 Abando"]
+        ABA --> MOY[Moyua]
+        MOY --> IND[Indautxu]
+        IND --> SAM["🚉 San Mamés"]
+        SAM --> DEU[Deusto]
+        DEU --> SAR[Sarriko]
+        SAR --> LUT[Lutxana]
+        LUT --> ERA[Erandio]
+        ERA --> AST[Astrabudua]
+        AST --> LEI[Leioa]
+        LEI --> PLE[... Plentzia]
+    end
+
+    subgraph L2["🟠 LÍNEA 2 - Basauri ↔ Kabiezes"]
+        direction LR
+        BSR[Basauri] --> ARZ[Ariz]
+        ARZ --> ETX2[Etxebarri]
+        ETX2 --> BOL2[Bolueta]
+        BOL2 --> BAS2[Basarrate]
+        BAS2 --> SAN2[Santutxu]
+        SAN2 --> CAV2["🚉 Casco Viejo"]
+        CAV2 --> ABA2["🚉 Abando"]
+        ABA2 --> SAM2["🚉 San Mamés"]
+        SAM2 --> SIN[San Inazio]
+        SIN --> GUR["🚉 Gurutzeta"]
+        GUR --> BAR["🚉 Barakaldo"]
         BAR --> BAG[Bagatza]
-        BAG --> SAN[San Inazio]
-        SAN --> BAS[Basarrate]
-        BAS --> BOL[Bolueta]
-        BOL --> ETX[Etxebarri]
-        ETX --> ARZ[Ariz]
-        ARZ --> BSR[Bolueta Sur]
+        BAG --> URB[Urbinaga]
+        URB --> SES[Sestao]
+        SES --> KAB[... Kabiezes]
     end
-    
-    %% Línea 2 - Kabiezes ↔ Basauri
-    subgraph L2["🟠 Línea 2 - Kabiezes ↔ Basauri"]
-        KAB[Kabiezes] --> STZ[Santurtzi]
-        STZ --> POR[Portugalete]
-        POR --> ABT[Abatxolo]
-        ABT --> SES[Sestao]
-        SES --> URB[Urbinaga]
-        URB --> BAG2[Bagatza]
-        BAG2 --> BAR2[Barakaldo]
-    end
-    
-    %% Línea 3 (Extensiones)
-    subgraph L3["🟢 Extensiones / Accesos"]
-        AIB[Aiboa] --> ALG[Algorta]
-        ALG --> BID[Bidezabal]
-    end
-    
-    %% Nodos principales (intercambiadores)
-    ABA[🚉 Abando<br/>Interchange]
-    MOY[Moyua]
-    IND[Indautxu]
-    SAM[San Mamés]
-    DEU[Deusto]
-    SAR[Sarriko]
-    SIN[Santutxu]
-    
-    %% Conexiones del centro
-    ABA --> MOY --> IND --> SAM --> DEU --> SAR --> SIN
-    
+
+    %% Conexiones entre líneas (Intercambiadores)
+    CAV -.->|"Transbordo"| CAV2
+    ABA -.->|"Transbordo"| ABA2
+    SAM -.->|"Transbordo"| SAM2
+
     %% Estilos
-    style L1 fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style L2 fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    style L3 fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
-    style ABA fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
-    style BAG fill:#ffeb3b,stroke:#f57f17,stroke-width:2px
-    style BAR fill:#ffeb3b,stroke:#f57f17,stroke-width:2px
+    style L1 fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
+    style L2 fill:#fff3e0,stroke:#ff9800,stroke-width:3px
+    
+    style ETX fill:#1976d2,color:#fff
+    style PLE fill:#1976d2,color:#fff
+    style BSR fill:#ff9800,color:#fff
+    style KAB fill:#ff9800,color:#fff
+    
+    style CAV fill:#ffd700,stroke:#333,stroke-width:2px
+    style ABA fill:#ffd700,stroke:#333,stroke-width:2px
+    style SAM fill:#ffd700,stroke:#333,stroke-width:2px
+    style CAV2 fill:#ffd700,stroke:#333,stroke-width:2px
+    style ABA2 fill:#ffd700,stroke:#333,stroke-width:2px
+    style SAM2 fill:#ffd700,stroke:#333,stroke-width:2px
+    style GUR fill:#ffd700,stroke:#333,stroke-width:2px
+    style BAR fill:#ffd700,stroke:#333,stroke-width:2px
 ```
+
+---
+
+## 📋 Leyenda
+
+| Símbolo | Significado |
+|---------|-------------|
+| 🔵 | Línea 1 (Etxebarri - Plentzia) |
+| 🟠 | Línea 2 (Basauri - Kabiezes) |
+| 🚉 | Estación Intercambiador |
+| `───` | Conexión directa entre estaciones |
+| `- -` | Transbordo entre líneas |
+| 🟡 | Nodo dorado = Intercambiador |
+
+---
+
+## 🚉 Estaciones Intercambiador
+
+| Estación | Líneas | Conexiones Externas |
+|----------|--------|---------------------|
+| **Casco Viejo** | L1, L2 | Casco histórico de Bilbao |
+| **Abando** | L1, L2 | RENFE Cercanías, Euskotren |
+| **San Mamés** | L1, L2 | Estadio San Mamés, Termibus |
+| **Gurutzeta/Cruces** | L2 | Hospital Universitario Cruces |
+| **Barakaldo** | L2 | Centro comercial MegaPark |
 
 ---
 
@@ -77,50 +101,24 @@ graph LR
 
 | Métrica | Valor |
 |---------|-------|
-| **Total de estaciones** | 49 estaciones físicas |
-| **Total de accesos** | 123 puntos de entrada/salida |
-| **Líneas operativas** | 2 líneas principales (L1, L2) |
-| **Zonas tarifarias** | 3 zonas (Centro, Intermedia, Exterior) |
-| **Longitud aproximada** | ~43 km de red |
+| Total estaciones | 49 |
+| Total accesos | 123 |
+| Líneas | 2 (L1, L2) |
+| Intercambiadores | 5 |
+| Longitud total | ~45 km |
 
 ---
 
-## 🎯 Estaciones con Mayor Complejidad
+## 👁️ Visualización
 
-Estaciones con **4 o más accesos** (ascensores, entradas, conexiones):
-
-| Estación | Accesos | Tipo |
-|----------|---------|------|
-| **Abando (ABA)** | 4 | Ascensor, Berastegi, Gran Vía, RENFE |
-| **Barakaldo (BAR)** | 4 | Ascensor, Elkano, Foruak, Euskadi |
-| **Bagatza (BAG)** | 3 | Ascensor, Gabriel Aresti, Santa Teresa |
-| **Santurtzi (STZ)** | 4 | Ascensor, Las Viñas, Casa Torre, Mamariga |
+Para ver este diagrama renderizado:
+1. Abre este archivo en VS Code
+2. Pulsa `Cmd+Shift+V` (Mac) o `Ctrl+Shift+V` (Windows)
+3. Requiere extensión: **Markdown Preview Mermaid Support** (`bierner.markdown-mermaid`)
 
 ---
 
-## 🚇 Principales Intercambiadores
-
-```mermaid
-graph TD
-    A[🚉 Abando] -->|L1| B[San Mamés]
-    A -->|Cercanías RENFE| C[Bilbao-Abando]
-    A -->|Conexión| D[Moyua]
-    
-    B -->|L1 & L2| E[Barakaldo]
-    B -->|Conexión| F[Deusto]
-    
-    E -->|L1 Plentzia| G[Plentzia]
-    E -->|L1 Etxebarri| H[Etxebarri]
-    E -->|L2 Kabiezes| I[Kabiezes]
-    
-    style A fill:#ffd54f
-    style B fill:#ffd54f
-    style E fill:#ffd54f
-```
-
----
-
-## 📍 Coordenadas GPS de Estaciones Clave
+*Fuente: [OpenData Metro Bilbao](https://www.metrobilbao.eus/es/open-data/dataset/estaciones)*
 
 | Estación | Latitud | Longitud | Zona |
 |----------|---------|----------|------|
